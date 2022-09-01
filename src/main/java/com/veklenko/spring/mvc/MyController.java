@@ -2,12 +2,14 @@ package com.veklenko.spring.mvc;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
+@RequestMapping("/employee")
 public class MyController {
 
     @RequestMapping("/")
@@ -16,7 +18,9 @@ public class MyController {
     }
 
     @RequestMapping("/askDetails")
-    public String askEmployeeDeatails() {
+    public String askEmployeeDetails(Model model) {
+
+        model.addAttribute("employee", new Employee());
         return "ask-emp-details-view";
     }
 
@@ -38,12 +42,7 @@ public class MyController {
 
 
     @RequestMapping("/showDetails")
-    public String showEmployeeDetails(@RequestParam("employeeName") String empName
-            , Model model) {
-
-        empName = "Mr." + empName;
-        model.addAttribute("nameAttribute", empName);
-
+    public String showEmployeeDetails(@ModelAttribute("employee") Employee employee) {
         return "show-emp-details-view";
     }
 }
